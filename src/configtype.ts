@@ -24,6 +24,9 @@ export interface ExpanderConfig {
     clear?: boolean;
     'clear-children'?: boolean;
     cards?: { type: string }[];
+    entities?: { entity: string }[];
+    'entities-card'?: { type: string };
+    'entity-config'?: unknown;
     gap?: string;
     'expanded-gap'?: string;
     padding?: string;
