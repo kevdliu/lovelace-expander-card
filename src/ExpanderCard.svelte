@@ -23,6 +23,34 @@
             'haptic': 'light' as const
         };
         import { loadExpanderCardEditor } from './ExpanderCardEditor';
+        import type { ExpanderConfig } from './configtype';
+
+        function configureEntitiesCard(config: ExpanderConfig): ExpanderConfig {
+            const entitiesCard = config['entities-card'];
+            if (!entitiesCard) {
+                return config;
+            }
+
+            if (!Array.isArray(config.entities) || !config.entities.length) {
+                return config;
+            }
+
+            const entityConfig = config['entity-config'] ?? {};
+            return {
+                ...config,
+                cards: [
+                    {
+                        ...entitiesCard,
+                        entities: config.entities.map((entity) => {
+                            return {
+                                ...entityConfig,
+                                ...entity
+                            };
+                        })
+                    }
+                ]
+            };
+        }
 </script>
 
 <!-- eslint-disable-next-line svelte/valid-compile -->
@@ -46,7 +74,7 @@
         }
 
         public setConfig(conf = {}) {
-            this.config = { ...defaults, ...conf };
+            this.config = configureEntitiesCard({ ...defaults, ...conf });
         };
     }
 }}/>
